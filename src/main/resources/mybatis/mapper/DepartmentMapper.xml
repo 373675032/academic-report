@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.report.mapper.DepartmentMapper">
+<mapper namespace="world.xuewei.mapper.DepartmentMapper">
 
     <!--department的映射结果集-->
-    <resultMap type="com.report.entity.Department" id="DepartmentMap">
+    <resultMap type="world.xuewei.entity.Department" id="DepartmentMap">
         <result property="id" column="id" jdbcType="INTEGER"/>
         <result property="no" column="no" jdbcType="VARCHAR"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
@@ -13,7 +13,8 @@
     </resultMap>
 
     <!--全部字段-->
-    <sql id="allColumn"> id, no, name, leader_id, college_id, password </sql>
+    <sql id="allColumn"> id
+    , no, name, leader_id, college_id, password </sql>
 
     <!--添加语句的字段列表-->
     <sql id="insertColumn">

@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.report.mapper.CollegeMapper">
+<mapper namespace="world.xuewei.mapper.CollegeMapper">
 
     <!--college的映射结果集-->
-    <resultMap type="com.report.entity.College" id="CollegeMap">
+    <resultMap type="world.xuewei.entity.College" id="CollegeMap">
         <result property="id" column="id" jdbcType="INTEGER"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
         <result property="leaderId" column="leader_id" jdbcType="INTEGER"/>
     </resultMap>
 
     <!--全部字段-->
-    <sql id="allColumn"> id, name, leader_id </sql>
+    <sql id="allColumn"> id
+    , name, leader_id </sql>
 
     <!--添加语句的字段列表-->
     <sql id="insertColumn">

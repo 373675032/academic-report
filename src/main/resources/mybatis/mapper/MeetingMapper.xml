@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.report.mapper.MeetingMapper">
+<mapper namespace="world.xuewei.mapper.MeetingMapper">
 
     <!--meeting的映射结果集-->
-    <resultMap type="com.report.entity.Meeting" id="MeetingMap">
+    <resultMap type="world.xuewei.entity.Meeting" id="MeetingMap">
         <result property="id" column="id" jdbcType="INTEGER"/>
         <result property="reportId" column="report_id" jdbcType="INTEGER"/>
         <result property="reporterId" column="reporter_id" jdbcType="VARCHAR"/>
@@ -15,7 +15,8 @@
     </resultMap>
 
     <!--全部字段-->
-    <sql id="allColumn"> id, report_id, reporter_id, presenter_id, report_time, address, appointment_end, capacity </sql>
+    <sql id="allColumn"> id
+    , report_id, reporter_id, presenter_id, report_time, address, appointment_end, capacity </sql>
 
     <!--添加语句的字段列表-->
     <sql id="insertColumn">
@@ -180,39 +181,45 @@
     <select id="listAppointmentEndMeetings" resultMap="MeetingMap">
         select m.*
         from meeting m
-        left join teacher t on m.reporter_id = t.id
-        where now() BETWEEN appointment_end AND report_time and t.college_id = #{collegeId}
+                 left join teacher t on m.reporter_id = t.id
+        where now() BETWEEN appointment_end AND report_time
+          and t.college_id = #{collegeId}
     </select>
 
     <!--查询已完成的会议-->
     <select id="listFinishMeetings" resultMap="MeetingMap">
         select m.*
         from meeting m
-        left join teacher t on m.reporter_id = t.id
-        where now() > report_time and t.college_id = #{collegeId}
+                 left join teacher t on m.reporter_id = t.id
+        where now() > report_time
+          and t.college_id = #{collegeId}
     </select>
 
     <!--获取指定学生预约的全部会议-->
     <select id="listAppointingMeeting" resultMap="MeetingMap">
         select m.*
         from meeting m
-        left join appointment a on m.id = a.meeting_id
-        where now() &lt; m.report_time and a.student_id = #{studentId}
+                 left join appointment a on m.id = a.meeting_id
+        where now() &lt; m.report_time
+          and a.student_id = #{studentId}
     </select>
 
     <!--获取指定学生的参会记录-->
     <select id="listAppointingFinishMeeting" resultMap="MeetingMap">
         select m.*
         from meeting m
-        left join appointment a on m.id = a.meeting_id
-        where now() &gt; m.report_time and a.student_id = #{studentId}
+                 left join appointment a on m.id = a.meeting_id
+        where now() &gt; m.report_time
+          and a.student_id = #{studentId}
     </select>
 
     <!--获取指定学院的开展过报告会议的学年-->
     <select id="getAllYears" resultType="java.lang.String">
-        select distinct year(report_time) from meeting
-        left join teacher t on reporter_id = t.id
-        left join report r on report_id = r.id
+        select distinct year (report_time)
+        from meeting
+            left join teacher t
+        on reporter_id = t.id
+            left join report r on report_id = r.id
         where t.college_id = #{collegeId} and r.status = 4
     </select>
 

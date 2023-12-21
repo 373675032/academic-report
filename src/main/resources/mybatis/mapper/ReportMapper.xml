@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.report.mapper.ReportMapper">
+<mapper namespace="world.xuewei.mapper.ReportMapper">
 
     <!--report的映射结果集-->
-    <resultMap type="com.report.entity.Report" id="ReportMap">
+    <resultMap type="world.xuewei.entity.Report" id="ReportMap">
         <result property="id" column="id" jdbcType="INTEGER"/>
         <result property="title" column="title" jdbcType="VARCHAR"/>
         <result property="reporterNo" column="reporter_no" jdbcType="VARCHAR"/>
@@ -18,7 +18,8 @@
     </resultMap>
 
     <!--全部字段-->
-    <sql id="allColumn"> id, title, reporter_no, reporter_info, info, attachment,report_file, publish_time, status, check_info1, check_info2 </sql>
+    <sql id="allColumn"> id
+    , title, reporter_no, reporter_info, info, attachment,report_file, publish_time, status, check_info1, check_info2 </sql>
 
     <!--添加语句的字段列表-->
     <sql id="insertColumn">
@@ -207,10 +208,21 @@
 
     <!--根据学院ID获取报告-->
     <select id="listReportsByCollegeId" resultMap="ReportMap">
-        SELECT report.id id, title, reporter_no, reporter_info, info, attachment, report_file, publish_time, status, check_info1, check_info2
+        SELECT report.id id,
+               title,
+               reporter_no,
+               reporter_info,
+               info,
+               attachment,
+               report_file,
+               publish_time,
+               status,
+               check_info1,
+               check_info2
         FROM report
-        LEFT JOIN teacher on reporter_no = teacher.no
-        WHERE teacher.college_id = ${id} and status = ${status}
+                 LEFT JOIN teacher on reporter_no = teacher.no
+        WHERE teacher.college_id = ${id}
+          and status = ${status}
     </select>
 
     <!--通过主键修改数据-->

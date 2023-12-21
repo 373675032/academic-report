@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.report.mapper.AppointmentMapper">
+<mapper namespace="world.xuewei.mapper.AppointmentMapper">
 
     <!--appointment的映射结果集-->
-    <resultMap type="com.report.entity.Appointment" id="AppointmentMap">
+    <resultMap type="world.xuewei.entity.Appointment" id="AppointmentMap">
         <result property="id" column="id" jdbcType="INTEGER"/>
         <result property="meetingId" column="meeting_id" jdbcType="INTEGER"/>
         <result property="studentId" column="student_id" jdbcType="INTEGER"/>
@@ -12,7 +12,8 @@
     </resultMap>
 
     <!--全部字段-->
-    <sql id="allColumn"> id, meeting_id, student_id, appointment_time, present </sql>
+    <sql id="allColumn"> id
+    , meeting_id, student_id, appointment_time, present </sql>
 
     <!--添加语句的字段列表-->
     <sql id="insertColumn">
@@ -140,7 +141,10 @@
 
     <!--更新签到状态-->
     <update id="updatePresent">
-        update appointment set present = #{present} where meeting_id = #{meetingId} and student_id = #{studentId}
+        update appointment
+        set present = #{present}
+        where meeting_id = #{meetingId}
+          and student_id = #{studentId}
     </update>
 
 </mapper>
