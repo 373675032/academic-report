@@ -4,9 +4,9 @@ import cn.hutool.core.util.ObjectUtil;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import world.xuewei.constant.ReportConstant;
+import world.xuewei.dao.MeetingMapper;
 import world.xuewei.dto.ResponseResult;
 import world.xuewei.entity.*;
-import world.xuewei.mapper.MeetingMapper;
 
 import javax.annotation.Resource;
 import java.text.ParseException;

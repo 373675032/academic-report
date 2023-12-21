@@ -1,12 +1,12 @@
-package world.xuewei.mapper;
+package world.xuewei.dao;
 
 import org.apache.ibatis.annotations.Mapper;
-import world.xuewei.entity.Student;
+import world.xuewei.entity.Teacher;
 
 import java.util.List;
 
 /**
- * (Student)表数据库访问层
+ * (Teacher)表数据库访问层
  *
  * <p>
  * ==========================================================================
@@ -24,47 +24,47 @@ import java.util.List;
  * @author <a href="http://xuewei.world/about">XUEW</a>
  */
 @Mapper
-public interface StudentMapper {
+public interface TeacherMapper {
 
     /**
-     * 添加Student
+     * 添加Teacher
      */
-    int insert(Student student);
+    int insert(Teacher teacher);
 
     /**
-     * 删除Student
+     * 删除Teacher
      */
     int deleteById(Integer id);
 
     /**
      * 查询单条数据
      */
-    Student getById(Integer id);
+    Teacher getById(Integer id);
 
     /**
      * 查询单条数据
      */
-    Student getByNo(String no);
+    Teacher getByNo(String no);
 
     /**
      * 查询全部数据
      * 分页使用MyBatis的插件实现
      */
-    List<Student> listStudents();
+    List<Teacher> listTeachers();
 
     /**
      * 实体作为筛选条件查询数据
      */
-    List<Student> listStudents(Student student);
+    List<Teacher> listTeachers(Teacher teacher);
 
     /**
      * 实体作为筛选条件获取结果数量
      */
-    int countStudents(Student student);
+    int countTeachers(Teacher teacher);
 
     /**
-     * 修改Student, 根据 student 的主键修改数据
+     * 修改Teacher, 根据 teacher 的主键修改数据
      */
-    int update(Student student);
+    int update(Teacher teacher);
 
 }

@@ -1,12 +1,12 @@
-package world.xuewei.mapper;
+package world.xuewei.dao;
 
 import org.apache.ibatis.annotations.Mapper;
-import world.xuewei.entity.Appointment;
+import world.xuewei.entity.Department;
 
 import java.util.List;
 
 /**
- * (Appointment)表数据库访问层
+ * (Department)表数据库访问层
  *
  * <p>
  * ==========================================================================
@@ -24,46 +24,47 @@ import java.util.List;
  * @author <a href="http://xuewei.world/about">XUEW</a>
  */
 @Mapper
-public interface AppointmentMapper {
+public interface DepartmentMapper {
 
     /**
-     * 添加Appointment
+     * 添加Department
      */
-    int insert(Appointment appointment);
+    int insert(Department department);
 
     /**
-     * 删除Appointment
+     * 删除Department
      */
     int deleteById(Integer id);
 
     /**
      * 查询单条数据
      */
-    Appointment getById(Integer id);
+    Department getById(Integer id);
+
+    /**
+     * 查询单条数据
+     */
+    Department getByNo(String no);
 
     /**
      * 查询全部数据
      * 分页使用MyBatis的插件实现
      */
-    List<Appointment> listAppointments();
+    List<Department> listDepartments();
 
     /**
      * 实体作为筛选条件查询数据
      */
-    List<Appointment> listAppointments(Appointment appointment);
+    List<Department> listDepartments(Department department);
 
     /**
      * 实体作为筛选条件获取结果数量
      */
-    int countAppointments(Appointment appointment);
+    int countDepartments(Department department);
 
     /**
-     * 修改Appointment, 根据 appointment 的主键修改数据
+     * 修改Department, 根据 department 的主键修改数据
      */
-    int update(Appointment appointment);
+    int update(Department department);
 
-    /**
-     * 修改数据，哪个属性不为空就修改哪个属性
-     */
-    boolean updatePresent(Appointment appointment);
 }

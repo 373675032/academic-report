@@ -1,4 +1,4 @@
-package world.xuewei.client;
+package world.xuewei.component;
 
 import com.alibaba.dashscope.aigc.generation.Generation;
 import com.alibaba.dashscope.aigc.generation.GenerationOutput;

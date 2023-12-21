@@ -13,10 +13,10 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import world.xuewei.dao.TeacherMapper;
 import world.xuewei.dto.ResponseResult;
 import world.xuewei.entity.College;
 import world.xuewei.entity.Teacher;
-import world.xuewei.mapper.TeacherMapper;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;

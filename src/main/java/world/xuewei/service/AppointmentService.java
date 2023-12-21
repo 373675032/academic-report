@@ -10,10 +10,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import world.xuewei.dao.AppointmentMapper;
+import world.xuewei.dto.AppointmentTable;
 import world.xuewei.dto.ResponseResult;
 import world.xuewei.entity.*;
-import world.xuewei.excel.AppointmentTable;
-import world.xuewei.mapper.AppointmentMapper;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;

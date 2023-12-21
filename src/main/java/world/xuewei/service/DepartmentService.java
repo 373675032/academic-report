@@ -7,10 +7,10 @@ import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import world.xuewei.constant.Leader;
+import world.xuewei.dao.DepartmentMapper;
 import world.xuewei.entity.College;
 import world.xuewei.entity.Department;
 import world.xuewei.entity.Teacher;
-import world.xuewei.mapper.DepartmentMapper;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;

@@ -1,13 +1,12 @@
-package world.xuewei.mapper;
+package world.xuewei.dao;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import world.xuewei.entity.Report;
+import world.xuewei.entity.Student;
 
 import java.util.List;
 
 /**
- * (Report)表数据库访问层
+ * (Student)表数据库访问层
  *
  * <p>
  * ==========================================================================
@@ -25,47 +24,47 @@ import java.util.List;
  * @author <a href="http://xuewei.world/about">XUEW</a>
  */
 @Mapper
-public interface ReportMapper {
+public interface StudentMapper {
 
     /**
-     * 添加Report
+     * 添加Student
      */
-    int insert(Report report);
+    int insert(Student student);
 
     /**
-     * 删除Report
+     * 删除Student
      */
     int deleteById(Integer id);
 
     /**
      * 查询单条数据
      */
-    Report getById(Integer id);
+    Student getById(Integer id);
+
+    /**
+     * 查询单条数据
+     */
+    Student getByNo(String no);
 
     /**
      * 查询全部数据
      * 分页使用MyBatis的插件实现
      */
-    List<Report> listReports();
+    List<Student> listStudents();
 
     /**
      * 实体作为筛选条件查询数据
      */
-    List<Report> listReports(Report report);
-
-    /**
-     * 根据学院ID获取报告
-     */
-    List<Report> listReportsByCollegeId(@Param("id") Integer id, @Param("status") Integer status);
+    List<Student> listStudents(Student student);
 
     /**
      * 实体作为筛选条件获取结果数量
      */
-    int countReports(Report report);
+    int countStudents(Student student);
 
     /**
-     * 修改Report, 根据 report 的主键修改数据
+     * 修改Student, 根据 student 的主键修改数据
      */
-    int update(Report report);
+    int update(Student student);
 
 }

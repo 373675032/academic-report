@@ -1,8 +1,8 @@
 package world.xuewei.service;
 
 import org.springframework.stereotype.Service;
+import world.xuewei.dao.MessageMapper;
 import world.xuewei.entity.Message;
-import world.xuewei.mapper.MessageMapper;
 
 import javax.annotation.Resource;
 import java.util.List;

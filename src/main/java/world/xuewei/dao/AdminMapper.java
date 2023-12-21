@@ -1,4 +1,4 @@
-package world.xuewei.mapper;
+package world.xuewei.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 import world.xuewei.entity.Admin;

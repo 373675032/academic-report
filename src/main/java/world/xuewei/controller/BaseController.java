@@ -3,7 +3,7 @@ package world.xuewei.controller;
 import cn.hutool.core.util.ObjectUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import world.xuewei.client.OssClient;
+import world.xuewei.component.OssClient;
 import world.xuewei.constant.ReportConstant;
 import world.xuewei.constant.Role;
 import world.xuewei.dto.ResponseResult;

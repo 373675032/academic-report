@@ -1,12 +1,13 @@
-package world.xuewei.mapper;
+package world.xuewei.dao;
 
 import org.apache.ibatis.annotations.Mapper;
-import world.xuewei.entity.Teacher;
+import org.apache.ibatis.annotations.Param;
+import world.xuewei.entity.Report;
 
 import java.util.List;
 
 /**
- * (Teacher)表数据库访问层
+ * (Report)表数据库访问层
  *
  * <p>
  * ==========================================================================
@@ -24,47 +25,47 @@ import java.util.List;
  * @author <a href="http://xuewei.world/about">XUEW</a>
  */
 @Mapper
-public interface TeacherMapper {
+public interface ReportMapper {
 
     /**
-     * 添加Teacher
+     * 添加Report
      */
-    int insert(Teacher teacher);
+    int insert(Report report);
 
     /**
-     * 删除Teacher
+     * 删除Report
      */
     int deleteById(Integer id);
 
     /**
      * 查询单条数据
      */
-    Teacher getById(Integer id);
-
-    /**
-     * 查询单条数据
-     */
-    Teacher getByNo(String no);
+    Report getById(Integer id);
 
     /**
      * 查询全部数据
      * 分页使用MyBatis的插件实现
      */
-    List<Teacher> listTeachers();
+    List<Report> listReports();
 
     /**
      * 实体作为筛选条件查询数据
      */
-    List<Teacher> listTeachers(Teacher teacher);
+    List<Report> listReports(Report report);
+
+    /**
+     * 根据学院ID获取报告
+     */
+    List<Report> listReportsByCollegeId(@Param("id") Integer id, @Param("status") Integer status);
 
     /**
      * 实体作为筛选条件获取结果数量
      */
-    int countTeachers(Teacher teacher);
+    int countReports(Report report);
 
     /**
-     * 修改Teacher, 根据 teacher 的主键修改数据
+     * 修改Report, 根据 report 的主键修改数据
      */
-    int update(Teacher teacher);
+    int update(Report report);
 
 }

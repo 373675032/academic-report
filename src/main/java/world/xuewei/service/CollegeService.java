@@ -6,9 +6,9 @@ import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import world.xuewei.constant.Leader;
+import world.xuewei.dao.CollegeMapper;
 import world.xuewei.entity.College;
 import world.xuewei.entity.Teacher;
-import world.xuewei.mapper.CollegeMapper;
 
 import javax.annotation.Resource;
 import java.util.HashMap;

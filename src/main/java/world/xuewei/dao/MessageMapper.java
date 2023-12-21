@@ -1,12 +1,12 @@
-package world.xuewei.mapper;
+package world.xuewei.dao;
 
 import org.apache.ibatis.annotations.Mapper;
-import world.xuewei.entity.College;
+import world.xuewei.entity.Message;
 
 import java.util.List;
 
 /**
- * (College)表数据库访问层
+ * (Message)表数据库访问层
  *
  * <p>
  * ==========================================================================
@@ -24,42 +24,47 @@ import java.util.List;
  * @author <a href="http://xuewei.world/about">XUEW</a>
  */
 @Mapper
-public interface CollegeMapper {
+public interface MessageMapper {
 
     /**
-     * 添加College
+     * 添加Message
      */
-    int insert(College college);
+    int insert(Message message);
 
     /**
-     * 删除College
+     * 删除Message
      */
     int deleteById(Integer id);
 
     /**
+     * 删除我的Message
+     */
+    boolean deleteAllByTeacherId(Integer id);
+
+    /**
      * 查询单条数据
      */
-    College getById(Integer id);
+    Message getById(Integer id);
 
     /**
      * 查询全部数据
      * 分页使用MyBatis的插件实现
      */
-    List<College> listColleges();
+    List<Message> listMessages();
 
     /**
      * 实体作为筛选条件查询数据
      */
-    List<College> listColleges(College college);
+    List<Message> listMessages(Message message);
 
     /**
      * 实体作为筛选条件获取结果数量
      */
-    int countColleges(College college);
+    int countMessages(Message message);
 
     /**
-     * 修改College, 根据 college 的主键修改数据
+     * 修改Message, 根据 message 的主键修改数据
      */
-    int update(College college);
+    int update(Message message);
 
 }

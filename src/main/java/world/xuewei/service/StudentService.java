@@ -13,12 +13,12 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import world.xuewei.constant.Role;
+import world.xuewei.dao.StudentMapper;
 import world.xuewei.dto.ResponseResult;
 import world.xuewei.entity.College;
 import world.xuewei.entity.Student;
 import world.xuewei.entity.Teacher;
 import world.xuewei.entity.User;
-import world.xuewei.mapper.StudentMapper;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;

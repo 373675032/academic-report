@@ -1,4 +1,4 @@
-package world.xuewei.client;
+package world.xuewei.component;
 
 import cn.hutool.core.util.IdUtil;
 import com.aliyun.oss.OSSClient;

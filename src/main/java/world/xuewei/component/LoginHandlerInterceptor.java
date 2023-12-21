@@ -1,4 +1,4 @@
-package world.xuewei.interceptor;
+package world.xuewei.component;
 
 import org.springframework.web.servlet.HandlerInterceptor;
 

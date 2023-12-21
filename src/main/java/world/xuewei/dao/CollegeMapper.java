@@ -1,12 +1,12 @@
-package world.xuewei.mapper;
+package world.xuewei.dao;
 
 import org.apache.ibatis.annotations.Mapper;
-import world.xuewei.entity.Department;
+import world.xuewei.entity.College;
 
 import java.util.List;
 
 /**
- * (Department)表数据库访问层
+ * (College)表数据库访问层
  *
  * <p>
  * ==========================================================================
@@ -24,47 +24,42 @@ import java.util.List;
  * @author <a href="http://xuewei.world/about">XUEW</a>
  */
 @Mapper
-public interface DepartmentMapper {
+public interface CollegeMapper {
 
     /**
-     * 添加Department
+     * 添加College
      */
-    int insert(Department department);
+    int insert(College college);
 
     /**
-     * 删除Department
+     * 删除College
      */
     int deleteById(Integer id);
 
     /**
      * 查询单条数据
      */
-    Department getById(Integer id);
-
-    /**
-     * 查询单条数据
-     */
-    Department getByNo(String no);
+    College getById(Integer id);
 
     /**
      * 查询全部数据
      * 分页使用MyBatis的插件实现
      */
-    List<Department> listDepartments();
+    List<College> listColleges();
 
     /**
      * 实体作为筛选条件查询数据
      */
-    List<Department> listDepartments(Department department);
+    List<College> listColleges(College college);
 
     /**
      * 实体作为筛选条件获取结果数量
      */
-    int countDepartments(Department department);
+    int countColleges(College college);
 
     /**
-     * 修改Department, 根据 department 的主键修改数据
+     * 修改College, 根据 college 的主键修改数据
      */
-    int update(Department department);
+    int update(College college);
 
 }

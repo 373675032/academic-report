@@ -1,8 +1,8 @@
 package world.xuewei.service;
 
 import org.springframework.stereotype.Service;
+import world.xuewei.dao.AdminMapper;
 import world.xuewei.entity.Admin;
-import world.xuewei.mapper.AdminMapper;
 
 import javax.annotation.Resource;
 import java.util.List;

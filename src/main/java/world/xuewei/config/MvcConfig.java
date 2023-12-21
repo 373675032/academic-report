@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import world.xuewei.interceptor.LoginHandlerInterceptor;
+import world.xuewei.component.LoginHandlerInterceptor;
 
 /**
  * 配置MVC相关信息
