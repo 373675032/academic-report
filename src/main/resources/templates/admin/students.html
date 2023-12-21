@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"
+          name="viewport">
+    <title>学生管理-学术报告管理系统</title>
+    <!-- Favicon and Touch Icons -->
+    <link href="common/favicon.png" rel="shortcut icon" type="image/png">
+    <link href="background/modules/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="background/modules/ionicons/css/ionicons.min.css" rel="stylesheet">
+    <link href="background/modules/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css" rel="stylesheet">
+
+    <link href="background/modules/summernote/summernote-lite.css" rel="stylesheet">
+    <link href="background/modules/flag-icon-css/css/flag-icon.min.css" rel="stylesheet">
+    <link href="background/css/style.css" rel="stylesheet">
+    <link href="common/css/xtiper.css" rel="stylesheet">
+    <link href="common/css/glyphicon.css" rel="stylesheet">
+    <!--引入Jqgrid的核心CSS-->
+    <link href="common/grid/ui.jqgrid-bootstrap.css" rel="stylesheet">
+    <style>
+        th {
+            text-align: center;
+        }
+
+        #list .success, #list .active {
+            background: #c9dcdd;
+        }
+    </style>
+</head>
+
+<body>
+<div id="app">
+    <div class="main-wrapper">
+        <div class="navbar-bg"></div>
+        <div th:replace="commons/admin-bar::navbar(currUri='list-students')"></div>
+        <div th:replace="commons/admin-bar::sidebar(currUri='list-students')"></div>
+
+        <div class="main-content">
+            <section class="section">
+                <h1 class="section-header">
+                    <div>学生管理</div>
+                    <div class="float-right">
+                        <a class="btn-sm btn btn-danger" href="file/学生列表导入模板.xls">下载模板</a>
+                        <a class="btn-sm btn btn-primary" href="javaScript:$('#importStudents').click();">导人</a>
+                        <a class="btn-sm btn btn-success" href="exportStudents">导出</a>
+                        <input accept=".xls" id="importStudents" onchange="importStudents()" style="display: none"
+                               type="file">
+                    </div>
+                </h1>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="card mb-3">
+                            <div class="card-body" style="overflow-x: auto">
+                                <!--定义jqgrid表格标签-->
+                                <table id="list"></table>
+                                <!--定义分页栏标签-->
+                                <div id="pager"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div th:replace="commons/admin-bar::footer"></div>
+    </div>
+</div>
+<!--引入Jquery-->
+<script src="common/js/jquery-3.4.1.js"></script>
+<script src="background/modules/jquery.min.js"></script>
+<script src="common/js/xtiper.min.js"></script>
+<script src="background/js/custom.js"></script>
+<script src="background/modules/popper.js"></script>
+<script src="background/modules/tooltip.js"></script>
+<script src="background/modules/bootstrap/js/bootstrap.min.js"></script>
+<script src="background/modules/nicescroll/jquery.nicescroll.min.js"></script>
+<script src="background/modules/scroll-up-bar/dist/scroll-up-bar.min.js"></script>
+<script src="background/js/sa-functions.js"></script>
+
+<script src="background/modules/chart.min.js"></script>
+<script src="background/modules/summernote/summernote-lite.js"></script>
+
+<script src="background/js/scripts.js"></script>
+<!--引入jqgrid的核心JS-->
+<script src="common/grid/jquery.jqGrid.min.js"></script>
+<!--引入jqgrid的国际化JS-->
+<script src="common/grid/grid.locale-cn.js"></script>
+<script>
+    $(function () {
+        // 初始化表格
+        $('#list').jqGrid({
+            url: "allStudents", // 获取数据的地址
+            datatype: "json", // 服务器端返回的数据类型
+            mtype: "GET", // ajax提交方式。POST或者GET，默认GET
+            colNames: ["学号", "姓名", "密码", "性别", "出生日期", "手机号码", "邮箱", "年级", "专业", "班级", "学院"], // 列显示名称，是一个数组对象
+            colModel: [
+                {align: "center", sortable: false, search: true, editable: false, name: "no"},
+                {align: "center", sortable: false, search: true, editable: false, name: "name"},
+                {align: "center", sortable: false, search: false, editable: true, name: "password"},
+                {align: "center", sortable: false, search: false, editable: false, name: "sex"},
+                {align: "center", sortable: false, search: false, editable: false, name: "birthdayStr"},
+                {align: "center", sortable: false, search: true, editable: true, name: "phone"},
+                {align: "center", sortable: false, search: true, editable: true, name: "email"},
+                {align: "center", sortable: false, search: false, editable: true, name: "grade"},
+                {align: "center", sortable: false, search: false, editable: true, name: "major"},
+                {align: "center", sortable: false, search: false, editable: true, name: "classInfo"},
+                {align: "center", sortable: false, search: false, editable: false, name: "collegeName"}
+            ], // 与上面的属性必须成对出现
+            pager: "#pager", // 定义分页工具栏
+            viewrecords: true, // 展示总条数
+            rowNum: 10, // 每页展示的条数,默认20
+            rowList: [5, 10, 25, 50, 100,], // 显示下拉列表供用户自定义显示每页条数
+            styleUI: "Bootstrap", // 指定主题样式
+            hidegrid: false, // 禁用标题旁边的折叠按钮
+            autowidth: true, // 自适应父容器的宽度,铺满屏幕
+            height: 500, // 指定高度,单位px
+            page: 1, // 初始页码
+            pagerpos: "center", // 指定分页工具栏的位置,默认center
+            editurl: "editStudent" // 编辑的URL
+        }).navGrid(
+            /*
+                快速加入编辑功能
+             */
+            // 参数1: 将快速编辑放入哪个位置
+            "#pager",
+            // 参数2: 展示编辑的配置对象
+            {add: false, edit: true, del: true, search: true, refresh: true},
+            // 参数3: 编辑面板的配置
+            {reloadAfterSubmit: true, closeAfterEdit: true},
+            // 参数4: 添加面板的配置
+            {reloadAfterSubmit: true, closeAfterAdd: true},
+            // 参数5: 删除面板的配置
+            {reloadAfterSubmit: true, closeAfterDelete: true},
+            // 参数6: 搜索面板的配置
+            {reloadAfterSubmit: true, closeAfterSearch: true, sopt: ['eq']},
+            // 参数7: 刷新的配置
+            {},
+        );
+    });
+</script>
+</body>
+</html>

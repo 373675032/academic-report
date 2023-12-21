@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"
+          name="viewport">
+    <title>修改会议-学术报告管理系统</title>
+    <!-- Favicon and Touch Icons -->
+    <link href="common/favicon.png" rel="shortcut icon" type="image/png">
+    <link rel="stylesheet" href="background/modules/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="background/modules/ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="background/modules/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css">
+
+    <link rel="stylesheet" href="background/modules/summernote/summernote-lite.css">
+    <link rel="stylesheet" href="background/modules/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="background/css/style.css">
+    <link rel="stylesheet" href="common/css/xtiper.css">
+</head>
+
+<body>
+<div id="app">
+    <div class="main-wrapper">
+        <div class="navbar-bg"></div>
+        <div th:replace="commons/admin-bar::navbar(currUri='empty')"></div>
+        <div th:replace="commons/admin-bar::sidebar(currUri='empty')"></div>
+
+        <div class="main-content">
+            <section class="section">
+                <h1 class="section-header">
+                    <div>修改学术报告会议《[[${meetingVo.report.title}]]》</div>
+                </h1>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="card mb-3">
+                            <div class="card" style="margin: 0px;padding: 0px"> 
+                                <div class="card-body"> 
+                                   <div class="row">
+                                       <div class="col-6 form-group">
+                                           <label for="reporter">报告人</label>
+                                           <input id="reporter" disabled type="text" th:value="${meetingVo.reporter.name + ' : ' +meetingVo.reporter.name}" class="form-control">
+                                           <input id="meeting_id" type="hidden" th:value="${meetingVo.meeting.id}" class="form-control">
+                                       </div>
+                                       <div class="col-6 form-group">
+                                           <label for="host_no">主持人职工号</label>
+                                           <input id="host_no" type="text" th:value="${meetingVo.host.no}" class="form-control">
+                                       </div>
+                                   </div>
+                                   <div class="row">
+                                       <div class="col-6 form-group">
+                                           <label for="report_time">报告时间</label>
+                                           <input id="report_time" type="text" th:value="${#dates.format(meetingVo.meeting.reportTime,'yyyy-MM-dd HH:ss')}" placeholder="格式：2020-02-08 12:30" class="form-control">
+                                       </div>
+                                       <div class="col-6 form-group">
+                                           <label for="report_address">报告地点</label>
+                                           <input id="report_address" type="text" th:value="${meetingVo.meeting.address}" class="form-control">
+                                       </div>
+                                   </div>
+                                   <div class="row">
+                                       <div class="col-6 form-group">
+                                           <label for="appoint_end">预约截止时间</label>
+                                           <input id="appoint_end" type="text" th:value="${#dates.format(meetingVo.meeting.appointmentEnd,'yyyy-MM-dd HH:ss')}" placeholder="格式：2020-02-08 08:00" class="form-control">
+                                           </div>
+                                       <div class="col-6 form-group">
+                                           <label for="capacity">容纳人数</label>
+                                           <input id="capacity" type="number" th:value="${meetingVo.meeting.capacity}" class="form-control">
+                                       </div>
+                                   </div>
+                                </div>
+                                <div class="card-footer">
+                                    <button onclick="updateMeeting()" class="btn btn-success btn-sm">修改</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div th:replace="commons/admin-bar::footer"></div>
+    </div>
+</div>
+
+<script src="background/modules/jquery.min.js"></script>
+<script src="common/js/xtiper.min.js"></script>
+<script src="background/js/custom.js"></script>
+<script src="background/modules/popper.js"></script>
+<script src="background/modules/tooltip.js"></script>
+<script src="background/modules/bootstrap/js/bootstrap.min.js"></script>
+<script src="background/modules/nicescroll/jquery.nicescroll.min.js"></script>
+<script src="background/modules/scroll-up-bar/dist/scroll-up-bar.min.js"></script>
+<script src="background/js/sa-functions.js"></script>
+
+<script src="background/modules/chart.min.js"></script>
+<script src="background/modules/summernote/summernote-lite.js"></script>
+
+<script src="background/js/scripts.js"></script>
+</body>
+</html>

@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.report.mapper.TeacherMapper">
+
+    <!--teacher的映射结果集-->
+    <resultMap type="com.report.entity.Teacher" id="TeacherMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="no" column="no" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="phone" column="phone" jdbcType="VARCHAR"/>
+        <result property="birthday" column="birthday" jdbcType="TIMESTAMP"/>
+        <result property="sex" column="sex" jdbcType="VARCHAR"/>
+        <result property="position" column="position" jdbcType="VARCHAR"/>
+        <result property="isCollegeLeader" column="is_college_leader" jdbcType="INTEGER"/>
+        <result property="collegeId" column="college_id" jdbcType="INTEGER"/>
+        <result property="isDepartmentLeader" column="is_department_leader" jdbcType="INTEGER"/>
+        <result property="departmentId" column="department_id" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--全部字段-->
+    <sql id="allColumn"> id, no, name, password, phone, birthday, sex, position, is_college_leader, college_id, is_department_leader, department_id </sql>
+
+    <!--添加语句的字段列表-->
+    <sql id="insertColumn">
+        <if test="no != null and no != ''">
+            no,
+        </if>
+        <if test="name != null and name != ''">
+            name,
+        </if>
+        <if test="password != null and password != ''">
+            password,
+        </if>
+        <if test="phone != null and phone != ''">
+            phone,
+        </if>
+        <if test="birthday != null">
+            birthday,
+        </if>
+        <if test="sex != null and sex != ''">
+            sex,
+        </if>
+        <if test="position != null and position != ''">
+            position,
+        </if>
+        <if test="isCollegeLeader != null">
+            is_college_leader,
+        </if>
+        <if test="collegeId != null">
+            college_id,
+        </if>
+        <if test="isDepartmentLeader != null">
+            is_department_leader,
+        </if>
+        <if test="departmentId != null and departmentId != ''">
+            department_id,
+        </if>
+    </sql>
+
+    <!--添加语句的值列表-->
+    <sql id="insertValue">
+        <if test="no != null and no != ''">
+            #{no},
+        </if>
+        <if test="name != null and name != ''">
+            #{name},
+        </if>
+        <if test="password != null and password != ''">
+            #{password},
+        </if>
+        <if test="phone != null and phone != ''">
+            #{phone},
+        </if>
+        <if test="birthday != null">
+            #{birthday},
+        </if>
+        <if test="sex != null and sex != ''">
+            #{sex},
+        </if>
+        <if test="position != null and position != ''">
+            #{position},
+        </if>
+        <if test="isCollegeLeader != null">
+            #{isCollegeLeader},
+        </if>
+        <if test="collegeId != null">
+            #{collegeId},
+        </if>
+        <if test="isDepartmentLeader != null">
+            #{isDepartmentLeader},
+        </if>
+        <if test="departmentId != null and departmentId != ''">
+            #{departmentId},
+        </if>
+    </sql>
+
+    <!--通用对Teacher各个属性的值的非空判断，Insert、Update使用-->
+    <sql id="commonsValue">
+        <if test="no != null and no != ''">
+            no = #{no},
+        </if>
+        <if test="name != null and name != ''">
+            name = #{name},
+        </if>
+        <if test="password != null and password != ''">
+            password = #{password},
+        </if>
+        <if test="phone != null and phone != ''">
+            phone = #{phone},
+        </if>
+        <if test="birthday != null">
+            birthday = #{birthday},
+        </if>
+        <if test="sex != null and sex != ''">
+            sex = #{sex},
+        </if>
+        <if test="position != null and position != ''">
+            position = #{position},
+        </if>
+        <if test="isCollegeLeader != null">
+            is_college_leader = #{isCollegeLeader},
+        </if>
+        <if test="collegeId != null">
+            college_id = #{collegeId},
+        </if>
+        <if test="isDepartmentLeader != null">
+            is_department_leader = #{isDepartmentLeader},
+        </if>
+        <if test="departmentId != null and departmentId != ''">
+            department_id = #{departmentId},
+        </if>
+    </sql>
+
+    <!--通用对Teacher各个属性的值的非空判断,Where查询使用-->
+    <sql id="commonsQuery">
+        <if test="no != null and no != ''">
+            and no = #{no}
+        </if>
+        <if test="name != null and name != ''">
+            and name = #{name}
+        </if>
+        <if test="password != null and password != ''">
+            and password = #{password}
+        </if>
+        <if test="phone != null and phone != ''">
+            and phone = #{phone}
+        </if>
+        <if test="birthday != null">
+            and birthday = #{birthday}
+        </if>
+        <if test="sex != null and sex != ''">
+            and sex = #{sex}
+        </if>
+        <if test="position != null and position != ''">
+            and position = #{position}
+        </if>
+        <if test="isCollegeLeader != null">
+            and is_college_leader = #{isCollegeLeader}
+        </if>
+        <if test="collegeId != null">
+            and college_id = #{collegeId}
+        </if>
+        <if test="isDepartmentLeader != null">
+            and is_department_leader = #{isDepartmentLeader}
+        </if>
+        <if test="departmentId != null and departmentId != ''">
+            and department_id = #{departmentId}
+        </if>
+    </sql>
+
+    <!--新增teacher:哪个字段不为空就添加哪列数据,返回自增主键-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into teacher
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <include refid="insertColumn"/>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <include refid="insertValue"/>
+        </trim>
+    </insert>
+
+    <!--删除teacher:通过主键-->
+    <delete id="deleteById">
+        delete from teacher
+        <where>
+            id = #{id}
+        </where>
+    </delete>
+
+    <!--查询单个teacher-->
+    <select id="getById" resultMap="TeacherMap">
+        select
+        <include refid="allColumn"></include>
+        from teacher
+        <where>
+            id = #{id}
+        </where>
+    </select>
+
+    <select id="getByNo" resultMap="TeacherMap">
+        select
+        <include refid="allColumn"></include>
+        from teacher
+        <where>
+            no = #{no}
+        </where>
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="listTeachers" resultMap="TeacherMap">
+        select
+        <include refid="allColumn"></include>
+        from teacher
+        <trim prefix="where" prefixOverrides="and" suffixOverrides=",">
+            <include refid="commonsQuery"></include>
+        </trim>
+    </select>
+
+    <!--通过实体作为筛选条件获取结果数量-->
+    <select id="countTeachers" resultType="java.lang.Integer">
+        select
+        count(*)
+        from teacher
+        <trim prefix="where" prefixOverrides="and" suffixOverrides=",">
+            <include refid="commonsQuery"></include>
+        </trim>
+    </select>
+
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update teacher
+        <set>
+            <include refid="commonsValue"></include>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+</mapper>

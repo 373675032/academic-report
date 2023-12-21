@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"
+          name="viewport">
+    <title>报告大厅-学术报告管理系统</title>
+    <!-- Favicon and Touch Icons -->
+    <link href="common/favicon.png" rel="shortcut icon" type="image/png">
+    <link rel="stylesheet" href="background/modules/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="background/modules/ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="background/modules/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css">
+
+    <link rel="stylesheet" href="background/modules/summernote/summernote-lite.css">
+    <link rel="stylesheet" href="background/modules/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="background/css/style.css">
+    <link rel="stylesheet" href="common/css/xtiper.css">
+    <link rel="stylesheet" href="common/datatable/dataTables.bootstrap4.min.css"/>
+</head>
+
+<body>
+<div id="app">
+    <div class="main-wrapper">
+        <div class="navbar-bg"></div>
+        <div th:replace="commons/admin-bar::navbar(currUri='appointing-meeting')"></div>
+        <div th:replace="commons/admin-bar::sidebar(currUri='appointing-meeting')"></div>
+
+        <div class="main-content">
+            <section class="section">
+                <h1 class="section-header">
+                    <div><i class="ion ion-flag"></i> 报告大厅</div>
+                </h1>
+                <div class="row">
+                    <div th:each="meetingVo:${MeetingVos}" class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>
+                                    <i class="ion ion-help-buoy"></i> 《[[${meetingVo.report.title}]]》学术报告会议
+                                    <div class="float-right">
+                                        <button th:if="${meetingVo.status == 0}" th:onclick="apply([[${meetingVo.meeting.id}]])" class="btn btn-success btn-sm"><i class="ion ion-happy"></i> 立即报名</button>
+                                        <button th:if="${meetingVo.status == 1}" disabled class="btn btn-success btn-sm"><i class="ion ion-checkmark-circled"></i> 已预约</button>
+                                        <button th:if="${meetingVo.status == 2}" disabled class="btn btn-warning btn-sm"><i class="ion ion-alert"></i> 预约已满</button>
+                                        <button class="btn btn-danger btn-sm" disabled><i class="ion ion-ios-time "></i> 报名截止：[[${#dates.format(meetingVo.meeting.appointmentEnd,'yyyy-MM-dd HH:ss')}]]</button>
+                                        <a title="下载报告文件" class="btn btn-sm btn-primary" th:href="${meetingVo.report.reportFile}"><i class="fa fa-download"></i></a>
+                                    </div>
+                                </h4>
+                            </div>
+                            <div class="card-body">
+                                <ul class="nav nav-tabs">
+                                    <li class="nav-item">
+                                        <a class="nav-link active show" id="home-tab4" data-toggle="tab" th:href="${'#info'+meetingVo.meeting.id}"><i class="ion ion-star"></i> 报告简介</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="profile-tab4" data-toggle="tab" th:href="${'#reportorInfo'+meetingVo.meeting.id}"><i class="ion ion-person"></i> 报告人简介</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="contact-tab4" data-toggle="tab" th:href="${'#meeting'+meetingVo.meeting.id}"><i class="ion ion-grid"></i> 会议信息</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content tab-bordered" id="myTab2Content">
+                                    <div class="tab-pane fade active show" style="text-indent: 2em" th:id="${'info'+meetingVo.meeting.id}" th:text="${meetingVo.report.info}"></div>
+                                    <div class="tab-pane fade" style="text-indent: 2em" th:id="${'reportorInfo'+meetingVo.meeting.id}" th:text="${meetingVo.report.reporterInfo}"></div>
+                                    <div class="tab-pane fade" th:id="${'meeting'+meetingVo.meeting.id}">
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item" th:text="${'会议地点：'+meetingVo.meeting.address}"></li>
+                                            <li class="list-group-item" th:text="${'会议时间：'+#dates.format(meetingVo.meeting.reportTime,'yyyy-MM-dd HH:ss')}">会议时间</li>
+                                            <li class="list-group-item" th:text="${'报告教师：'+meetingVo.reporter.name+'-'+meetingVo.reporter.position+'【'+meetingVo.reporter.phone+'】'}"></li>
+                                            <li class="list-group-item" th:text="${'主持教师：'+meetingVo.host.name+'-'+meetingVo.host.position+'【'+meetingVo.host.phone+'】'}"></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="row">
+                                    <div class="col-10">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" th:style="'width:'+ ${meetingVo.appointmentPercent + '%'}"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        已报名 [[${meetingVo.appointmentCount}]] <span class="text-muted">/ 预计 [[${meetingVo.meeting.capacity}]]</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </div>
+</div>
+
+<!--引入Jquery-->
+<script src="common/js/jquery-3.4.1.js"></script>
+<script src="background/modules/jquery.min.js"></script>
+<script src="common/js/xtiper.min.js"></script>
+<script src="background/js/custom.js"></script>
+<script src="background/modules/popper.js"></script>
+<script src="background/modules/tooltip.js"></script>
+<script src="background/modules/bootstrap/js/bootstrap.min.js"></script>
+<script src="background/modules/nicescroll/jquery.nicescroll.min.js"></script>
+<script src="background/modules/scroll-up-bar/dist/scroll-up-bar.min.js"></script>
+<script src="background/js/sa-functions.js"></script>
+<script src="common/datatable/jquery.dataTables.min.js"></script>
+<script src="common/datatable/dataTables.bootstrap4.min.js"></script>
+<script>
+    // START CODE FOR BASIC DATA TABLE
+    $(document).ready(function() {
+        $('#example1').DataTable({
+            language: {
+                "sProcessing": "处理中...",
+                "sLengthMenu": "显示 _MENU_ 项结果",
+                "sZeroRecords": "没有匹配结果",
+                "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上页",
+                    "sNext": "下页",
+                    "sLast": "末页"
+                },
+                "oAria": {
+                    "sSortAscending": ": 以升序排列此列",
+                    "sSortDescending": ": 以降序排列此列"
+                }
+            },
+            "aoColumnDefs": [ { "bSortable": false, "aTargets": [1,3,4,5 ]}],
+            "order": [0, "desc"]
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+server:
+  servlet:
+    context-path: /report
+    session:
+      timeout: 60m
+  tomcat:
+    uri-encoding: UTF-8
+  port: 8082
+spring:
+  mvc:
+    static-path-pattern: /**
+  # 数据源配置
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://127.0.0.1:3306/academic-report?serverTimezone=Hongkong&useAffectedRows=true&characterEncoding=utf8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    filters: stat,wall,log4j
+    maxPoolPreparedStatementPerConnectionSize: 20
+    useGlobalDataSourceStat: true
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+  servlet:
+    # 文件上传配置
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+  web:
+    resources:
+      static-locations: classpath:/static/
+
+# MyBatis配置
+mybatis:
+  config-location: classpath:mybatis/mybatis-config.xml
+  mapper-locations: classpath:mybatis/mapper/*.xml
+
+# 阿里云通义千问配置
+ai-key: sk-XXXXXXXXXXXXXXXXXXXXX
+# 阿里云对象存储配置
+oss:
+  bucket-name: XXXXXXXXXXXXXXXXXXXXX
+  end-point: XXXXXXXXXXXXXXXXXXXXX
+  access-key: XXXXXXXXXXXXXXXXXXXXX
+  access-secret: XXXXXXXXXXXXXXXXXXXXX
+
+

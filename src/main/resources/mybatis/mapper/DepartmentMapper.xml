@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.report.mapper.DepartmentMapper">
+
+    <!--department的映射结果集-->
+    <resultMap type="com.report.entity.Department" id="DepartmentMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="no" column="no" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="leaderId" column="leader_id" jdbcType="INTEGER"/>
+        <result property="collegeId" column="college_id" jdbcType="INTEGER"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--全部字段-->
+    <sql id="allColumn"> id, no, name, leader_id, college_id, password </sql>
+
+    <!--添加语句的字段列表-->
+    <sql id="insertColumn">
+        <if test="no != null and no != ''">
+            no,
+        </if>
+        <if test="name != null and name != ''">
+            name,
+        </if>
+        <if test="leaderId != null">
+            leader_id,
+        </if>
+        <if test="collegeId != null">
+            college_id,
+        </if>
+        <if test="password != null and password != ''">
+            password,
+        </if>
+    </sql>
+
+    <!--添加语句的值列表-->
+    <sql id="insertValue">
+        <if test="no != null and no != ''">
+            #{no},
+        </if>
+        <if test="name != null and name != ''">
+            #{name},
+        </if>
+        <if test="leaderId != null">
+            #{leaderId},
+        </if>
+        <if test="collegeId != null">
+            #{collegeId},
+        </if>
+        <if test="password != null and password != ''">
+            #{password},
+        </if>
+    </sql>
+
+    <!--通用对Department各个属性的值的非空判断，Insert、Update使用-->
+    <sql id="commonsValue">
+        <if test="no != null and no != ''">
+            no = #{no},
+        </if>
+        <if test="name != null and name != ''">
+            name = #{name},
+        </if>
+        <if test="leaderId != null">
+            leader_id = #{leaderId},
+        </if>
+        <if test="collegeId != null">
+            college_id = #{collegeId},
+        </if>
+        <if test="password != null and password != ''">
+            password = #{password},
+        </if>
+    </sql>
+
+    <!--通用对Department各个属性的值的非空判断,Where查询使用-->
+    <sql id="commonsQuery">
+        <if test="no != null and no != ''">
+            and no = #{no}
+        </if>
+        <if test="name != null and name != ''">
+            and name = #{name}
+        </if>
+        <if test="leaderId != null">
+            and leader_id = #{leaderId}
+        </if>
+        <if test="collegeId != null">
+            and college_id = #{collegeId}
+        </if>
+        <if test="password != null and password != ''">
+            and password = #{password}
+        </if>
+    </sql>
+
+    <!--新增department:哪个字段不为空就添加哪列数据,返回自增主键-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into department
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <include refid="insertColumn"/>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <include refid="insertValue"/>
+        </trim>
+    </insert>
+
+    <!--删除department:通过主键-->
+    <delete id="deleteById">
+        delete from department
+        <where>
+            id = #{id}
+        </where>
+    </delete>
+
+    <!--查询单个department-->
+    <select id="getById" resultMap="DepartmentMap">
+        select
+        <include refid="allColumn"></include>
+        from department
+        <where>
+            id = #{id}
+        </where>
+    </select>
+
+    <!--查询单个department-->
+    <select id="getByNo" resultMap="DepartmentMap">
+        select
+        <include refid="allColumn"></include>
+        from department
+        <where>
+            no = #{no}
+        </where>
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="listDepartments" resultMap="DepartmentMap">
+        select
+        <include refid="allColumn"></include>
+        from department
+        <trim prefix="where" prefixOverrides="and" suffixOverrides=",">
+            <include refid="commonsQuery"></include>
+        </trim>
+    </select>
+
+    <!--通过实体作为筛选条件获取结果数量-->
+    <select id="countDepartments" resultType="java.lang.Integer">
+        select
+        count(*)
+        from department
+        <trim prefix="where" prefixOverrides="and" suffixOverrides=",">
+            <include refid="commonsQuery"></include>
+        </trim>
+    </select>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update department
+        <set>
+            <include refid="commonsValue"></include>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+</mapper>

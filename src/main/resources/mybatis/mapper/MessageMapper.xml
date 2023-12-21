@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.report.mapper.MessageMapper">
+
+    <!--message的映射结果集-->
+    <resultMap type="com.report.entity.Message" id="MessageMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="toTeacherId" column="to_teacher_id" jdbcType="INTEGER"/>
+        <result property="message" column="message" jdbcType="VARCHAR"/>
+        <result property="sendTime" column="send_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--全部字段-->
+    <sql id="allColumn"> id, to_teacher_id, message, send_time </sql>
+
+    <!--添加语句的字段列表-->
+    <sql id="insertColumn">
+        <if test="toTeacherId != null">
+            to_teacher_id,
+        </if>
+        <if test="message != null and message != ''">
+            message,
+        </if>
+        <if test="sendTime != null">
+            send_time,
+        </if>
+    </sql>
+
+    <!--添加语句的值列表-->
+    <sql id="insertValue">
+        <if test="toTeacherId != null">
+            #{toTeacherId},
+        </if>
+        <if test="message != null and message != ''">
+            #{message},
+        </if>
+        <if test="sendTime != null">
+            #{sendTime},
+        </if>
+    </sql>
+
+    <!--通用对Message各个属性的值的非空判断，Insert、Update使用-->
+    <sql id="commonsValue">
+        <if test="toTeacherId != null">
+            to_teacher_id = #{toTeacherId},
+        </if>
+        <if test="message != null and message != ''">
+            message = #{message},
+        </if>
+        <if test="sendTime != null">
+            send_time = #{sendTime},
+        </if>
+    </sql>
+
+    <!--通用对Message各个属性的值的非空判断,Where查询使用-->
+    <sql id="commonsQuery">
+        <if test="toTeacherId != null">
+            and to_teacher_id = #{toTeacherId}
+        </if>
+        <if test="message != null and message != ''">
+            and message = #{message}
+        </if>
+        <if test="sendTime != null">
+            and send_time = #{sendTime}
+        </if>
+    </sql>
+
+    <!--新增message:哪个字段不为空就添加哪列数据,返回自增主键-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into message
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <include refid="insertColumn"/>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <include refid="insertValue"/>
+        </trim>
+    </insert>
+
+    <!--删除message:通过主键-->
+    <delete id="deleteById">
+        delete from message
+        <where>
+            id = #{id}
+        </where>
+    </delete>
+
+
+    <delete id="deleteAllByTeacherId">
+        delete from message
+        <where>
+            to_teacher_id = #{id}
+        </where>
+    </delete>
+
+    <!--查询单个message-->
+    <select id="getById" resultMap="MessageMap">
+        select
+        <include refid="allColumn"></include>
+        from message
+        <where>
+            id = #{id}
+        </where>
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="listMessages" resultMap="MessageMap">
+        select
+        <include refid="allColumn"></include>
+        from message
+        <trim prefix="where" prefixOverrides="and" suffixOverrides=",">
+            <include refid="commonsQuery"></include>
+        </trim>
+        order by send_time desc
+    </select>
+
+    <!--通过实体作为筛选条件获取结果数量-->
+    <select id="countMessages" resultType="java.lang.Integer">
+        select
+        count(*)
+        from message
+        <trim prefix="where" prefixOverrides="and" suffixOverrides=",">
+            <include refid="commonsQuery"></include>
+        </trim>
+    </select>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update message
+        <set>
+            <include refid="commonsValue"></include>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+</mapper>

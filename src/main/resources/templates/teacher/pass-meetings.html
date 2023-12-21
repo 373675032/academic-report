@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"
+          name="viewport">
+    <title>历史会议-学术报告管理系统</title>
+    <!-- Favicon and Touch Icons -->
+    <link href="common/favicon.png" rel="shortcut icon" type="image/png">
+    <link rel="stylesheet" href="background/modules/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="background/modules/ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="background/modules/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css">
+
+    <link rel="stylesheet" href="background/modules/summernote/summernote-lite.css">
+    <link rel="stylesheet" href="background/modules/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="background/css/style.css">
+    <link rel="stylesheet" href="common/css/xtiper.css">
+    <link rel="stylesheet" href="common/datatable/dataTables.bootstrap4.min.css"/>
+</head>
+
+<body>
+<div id="app">
+    <div class="main-wrapper">
+        <div class="navbar-bg"></div>
+        <div th:replace="commons/admin-bar::navbar(currUri='pass-meetings')"></div>
+        <div th:replace="commons/admin-bar::sidebar(currUri='pass-meetings')"></div>
+
+        <div class="main-content">
+            <section class="section">
+                <h1 class="section-header">
+                    <div><i class="ion ion-ios-bookmarks"></i> 历史会议</div>
+                </h1>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="example1"  class="table table-bordered table-hover display" style="text-align: center;">
+                                        <thead>
+                                        <tr>
+                                            <th>会议号</th>
+                                            <th>报告标题</th>
+                                            <th>报告人</th>
+                                            <th>会议时间</th>
+                                            <th>会议地点</th>
+                                            <th>预计</th>
+                                            <th>报名</th>
+                                            <th>实到</th>
+                                            <th>操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody style="font-size: 12px">
+                                            <tr th:each="meetingVo:${MeetingVos}">
+                                                <td th:text="${meetingVo.meeting.id}"></td>
+                                                <td>
+                                                    <a style="font-weight: bold" href="javaScript:void(0)" th:text="${meetingVo.report.title}"
+                                                       th:onclick="previewReport([[${meetingVo.report.title}]],
+                                                                           [[${meetingVo.report.info}]],
+                                                                           [[${meetingVo.report.reporterInfo}]],
+                                                                           [[${meetingVo.report.id}]],
+                                                                           [[${meetingVo.report.checkInfo1}]],
+                                                                           [[${meetingVo.report.checkInfo2}]],
+                                                                           [[${meetingVo.reporter.name}]],
+                                                                           [[${meetingVo.reporter.phone}]])"></a>
+                                                </td>
+                                                <td th:title="${meetingVo.reporter.phone}" th:text="${meetingVo.reporter.name}"></td>
+                                                <td th:text="${#dates.format(meetingVo.meeting.reportTime,'YYYY-MM-dd HH:mm')}"></td>
+                                                <td th:text="${meetingVo.meeting.address}"></td>
+                                                <td class="text-primary" th:text="${meetingVo.meeting.capacity+ '人'}"></td>
+                                                <td class="text-danger" th:text="${meetingVo.appointmentCount+ '人'}"></td>
+                                                <td class="text-danger" th:text="${meetingVo.arriveCount+ '人'}"></td>
+                                                <td>
+                                                    <a th:href="@{appointments(id=${meetingVo.meeting.id})}" class="btn-link text-success">查看</a>｜
+                                                    <a title="下载报告文件" th:href="${meetingVo.report.reportFile}" target="_blank" class="btn-link text-primary">报告</i></a>
+                                                    <span th:if="${meetingVo.report.attachment != null}"> | </span>
+                                                    <a title="下载附件" th:if="${meetingVo.report.attachment != null}" th:href="${meetingVo.report.attachment}" target="_blank" class="btn-link text-primary">附件</i></a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div><!-- end card-->
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </div>
+</div>
+
+<!--引入Jquery-->
+<script src="common/js/jquery-3.4.1.js"></script>
+<script src="background/modules/jquery.min.js"></script>
+<script src="common/js/xtiper.min.js"></script>
+<script src="background/js/custom.js"></script>
+<script src="background/modules/popper.js"></script>
+<script src="background/modules/tooltip.js"></script>
+<script src="background/modules/bootstrap/js/bootstrap.min.js"></script>
+<script src="background/modules/nicescroll/jquery.nicescroll.min.js"></script>
+<script src="background/modules/scroll-up-bar/dist/scroll-up-bar.min.js"></script>
+<script src="background/js/sa-functions.js"></script>
+<script src="common/datatable/jquery.dataTables.min.js"></script>
+<script src="common/datatable/dataTables.bootstrap4.min.js"></script>
+<script>
+    // START CODE FOR BASIC DATA TABLE
+    $(document).ready(function() {
+        $('#example1').DataTable({
+            language: {
+                "sProcessing": "处理中...",
+                "sLengthMenu": "显示 _MENU_ 项结果",
+                "sZeroRecords": "没有匹配结果",
+                "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上页",
+                    "sNext": "下页",
+                    "sLast": "末页"
+                },
+                "oAria": {
+                    "sSortAscending": ": 以升序排列此列",
+                    "sSortDescending": ": 以降序排列此列"
+                }
+            },
+            "aoColumnDefs": [ { "bSortable": false, "aTargets": [1,3,4,5 ]}],
+            "order": [0, "desc"]
+        });
+    });
+</script>
+</body>
+</html>

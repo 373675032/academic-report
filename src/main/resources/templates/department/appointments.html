@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"
+          name="viewport">
+    <title>查看预约-学术报告管理系统</title>
+    <!-- Favicon and Touch Icons -->
+    <link href="common/favicon.png" rel="shortcut icon" type="image/png">
+    <link rel="stylesheet" href="background/modules/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="background/modules/ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="background/modules/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css">
+
+    <link rel="stylesheet" href="background/modules/summernote/summernote-lite.css">
+    <link rel="stylesheet" href="background/modules/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="background/css/style.css">
+    <link rel="stylesheet" href="common/css/xtiper.css">
+    <link rel="stylesheet" href="common/datatable/dataTables.bootstrap4.min.css"/>
+</head>
+
+<body>
+<div id="app">
+    <div class="main-wrapper">
+        <div class="navbar-bg"></div>
+        <div th:replace="commons/admin-bar::navbar(currUri='meeting-statistics')"></div>
+        <div th:replace="commons/admin-bar::sidebar(currUri='meeting-statistics')"></div>
+
+        <div class="main-content">
+            <section class="section">
+                <h1 class="section-header">
+                    <div>《[[${report.title}]]》报告会议</div>
+                    <div class="float-right">
+                        <a th:if="${status == 'finish' and session.loginUser.name.contains('教务')}" href="javaScript:$('#importAppointments').click();" class="btn btn-sm btn-danger">录入签到情况</a>
+                        <input type="file" onchange="importAppointments()" id="importAppointments" style="display: none" accept=".xls">
+                        <a th:href="@{exportAppointment(id=${meeting.id})}" class="btn btn-sm btn-success">导出签到表</a>
+                    </div>
+                    </h1>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="example1"  class="table table-bordered table-hover display" style="text-align: center;">
+                                        <thead>
+                                        <tr>
+                                            <th>学号</th>
+                                            <th>姓名</th>
+                                            <th>性别</th>
+                                            <th>年级</th>
+                                            <th>专业</th>
+                                            <th>班级</th>
+                                            <th>院系</th>
+                                            <th>手机号</th>
+                                            <th>签到情况</th>
+                                            <th th:if="${status == 'finish'}">操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody style="font-size: 12px">
+                                            <tr th:each="appointmentVo:${AppointmentVos}">
+                                                <td th:text="${appointmentVo.student.no}"></td>
+                                                <td th:text="${appointmentVo.student.name}"></td>
+                                                <td th:text="${appointmentVo.student.sex}"></td>
+                                                <td th:text="${appointmentVo.student.grade}"></td>
+                                                <td th:text="${appointmentVo.student.major}"></td>
+                                                <td th:text="${appointmentVo.student.classInfo}"></td>
+                                                <td th:text="${appointmentVo.student.college.name}"></td>
+                                                <td th:text="${appointmentVo.student.phone}"></td>
+                                                <td>
+                                                    <span th:if="${appointmentVo.appointment.present == 1 }" class="text-success">正常</span>
+                                                    <span th:if="${appointmentVo.appointment.present == 0 }" class="text-danger">缺席</span>
+                                                </td>
+                                                <td th:if="${appointmentVo.appointment.present == null and status == 'finish'}">
+                                                    <select th:id="${'select'+appointmentVo.appointment.id}" th:onchange="updateStatus([[${appointmentVo.appointment.id}]])">
+                                                        <option value="1"></option>
+                                                        <option value="1">正常</option>
+                                                        <option value="0">缺席</option>
+                                                    </select>
+                                                </td>
+                                                <td th:if="${appointmentVo.appointment.present != null and status == 'finish'}">
+                                                    <select th:id="${'select'+appointmentVo.appointment.id}" th:onchange="updateStatus([[${appointmentVo.appointment.id}]])">
+                                                        <option th:if="${appointmentVo.appointment.present == 1 }" value="1">正常</option>
+                                                        <option th:if="${appointmentVo.appointment.present == 1 }" value="0">缺席</option>
+                                                        <option th:if="${appointmentVo.appointment.present == 0 }" value="0">缺席</option>
+                                                        <option th:if="${appointmentVo.appointment.present == 0 }" value="1">正常</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div><!-- end card-->
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </div>
+</div>
+
+<!--引入Jquery-->
+<script src="common/js/jquery-3.4.1.js"></script>
+<script src="background/modules/jquery.min.js"></script>
+<script src="common/js/xtiper.min.js"></script>
+<script src="background/js/custom.js"></script>
+<script src="background/modules/popper.js"></script>
+<script src="background/modules/tooltip.js"></script>
+<script src="background/modules/bootstrap/js/bootstrap.min.js"></script>
+<script src="background/modules/nicescroll/jquery.nicescroll.min.js"></script>
+<script src="background/modules/scroll-up-bar/dist/scroll-up-bar.min.js"></script>
+<script src="background/js/sa-functions.js"></script>
+<script src="common/datatable/jquery.dataTables.min.js"></script>
+<script src="common/datatable/dataTables.bootstrap4.min.js"></script>
+<script>
+    // START CODE FOR BASIC DATA TABLE
+    $(document).ready(function() {
+        $('#example1').DataTable({
+            language: {
+                "sProcessing": "处理中...",
+                "sLengthMenu": "显示 _MENU_ 项结果",
+                "sZeroRecords": "没有匹配结果",
+                "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上页",
+                    "sNext": "下页",
+                    "sLast": "末页"
+                },
+                "oAria": {
+                    "sSortAscending": ": 以升序排列此列",
+                    "sSortDescending": ": 以降序排列此列"
+                }
+            },
+            "aoColumnDefs": [ { "bSortable": false, "aTargets": [1,3,4,5 ]}],
+            "order": [0, "desc"]
+        });
+    });
+</script>
+</body>
+</html>

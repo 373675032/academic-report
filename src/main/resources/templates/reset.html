@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"
+          name="viewport">
+    <title>XX大学 - 学术报告管理系统</title>
+
+    <link href="background/modules/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="background/modules/ionicons/css/ionicons.min.css" rel="stylesheet">
+    <link href="background/modules/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css" rel="stylesheet">
+
+    <link href="background/css/demo.css" rel="stylesheet">
+    <link href="background/css/style.css" rel="stylesheet">
+    <link href="common/css/xtiper.css" rel="stylesheet">
+</head>
+
+<body>
+<div id="app">
+    <section class="section">
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
+                    <div class="login-brand">
+                        学术报告管理系统
+                    </div>
+
+                    <div class="card card-primary">
+                        <div class="card-header"><h4>修改密码</h4></div>
+
+                        <div class="card-body">
+                            <div>
+                                <div class="form-group">
+                                    <label for="old-input">原密码</label>
+                                    <input autofocus class="form-control" id="old-input" name="email" required
+                                           tabindex="1" type="password">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="password">新密码</label>
+                                    <input class="form-control pwstrength" data-indicator="pwindicator" id="password"
+                                           name="password" required tabindex="2" type="password">
+                                    <div class="pwindicator" id="pwindicator">
+                                        <div class="bar"></div>
+                                        <div class="label"></div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="password-confirm">确认新密码</label>
+                                    <input class="form-control" id="password-confirm" name="confirm-password"
+                                           required tabindex="2" type="password">
+                                </div>
+
+                                <div class="form-group">
+                                    <button class="btn btn-primary btn-block" onclick="reset()" tabindex="4">
+                                        提交修改
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="simple-footer">
+                        Copyright &copy; <a href="http://xuewei.world">薛伟同学</a> - 学术报告管理系统 2020
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script src="background/modules/jquery.min.js"></script>
+<script src="common/js/xtiper.min.js"></script>
+<script src="background/js/custom.js"></script>
+<script src="background/modules/popper.js"></script>
+<script src="background/modules/tooltip.js"></script>
+<script src="background/modules/bootstrap/js/bootstrap.min.js"></script>
+<script src="background/modules/nicescroll/jquery.nicescroll.min.js"></script>
+<script src="background/modules/scroll-up-bar/dist/scroll-up-bar.min.js"></script>
+<script src="background/js/sa-functions.js"></script>
+<script src="background/js/scripts.js"></script>
+</body>
+</html>

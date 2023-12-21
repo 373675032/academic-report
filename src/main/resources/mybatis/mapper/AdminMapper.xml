@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.report.mapper.AdminMapper">
+
+    <!--admin的映射结果集-->
+    <resultMap type="com.report.entity.Admin" id="AdminMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="no" column="no" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--全部字段-->
+    <sql id="allColumn"> id, no, password </sql>
+
+    <!--添加语句的字段列表-->
+    <sql id="insertColumn">
+        <if test="no != null and no != ''">
+            no,
+        </if>
+        <if test="password != null and password != ''">
+            password,
+        </if>
+    </sql>
+
+    <!--添加语句的值列表-->
+    <sql id="insertValue">
+        <if test="no != null and no != ''">
+            #{no},
+        </if>
+        <if test="password != null and password != ''">
+            #{password},
+        </if>
+    </sql>
+
+    <!--通用对Admin各个属性的值的非空判断，Insert、Update使用-->
+    <sql id="commonsValue">
+        <if test="no != null and no != ''">
+            no = #{no},
+        </if>
+        <if test="password != null and password != ''">
+            password = #{password},
+        </if>
+    </sql>
+
+    <!--通用对Admin各个属性的值的非空判断,Where查询使用-->
+    <sql id="commonsQuery">
+        <if test="no != null and no != ''">
+            and no = #{no}
+        </if>
+        <if test="password != null and password != ''">
+            and password = #{password}
+        </if>
+    </sql>
+
+    <!--新增admin:哪个字段不为空就添加哪列数据,返回自增主键-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into admin
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <include refid="insertColumn"/>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <include refid="insertValue"/>
+        </trim>
+    </insert>
+
+    <!--删除admin:通过主键-->
+    <delete id="deleteById">
+        delete from admin
+        <where>
+            id = #{id}
+        </where>
+    </delete>
+
+    <!--查询单个admin-->
+    <select id="getById" resultMap="AdminMap">
+        select
+        <include refid="allColumn"></include>
+        from admin
+        <where>
+            id = #{id}
+        </where>
+    </select>
+
+    <!--查询单个admin-->
+    <select id="getByNo" resultMap="AdminMap">
+        select
+        <include refid="allColumn"></include>
+        from admin
+        <where>
+            no = #{no}
+        </where>
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="listAdmins" resultMap="AdminMap">
+        select
+        <include refid="allColumn"></include>
+        from admin
+        <trim prefix="where" prefixOverrides="and" suffixOverrides=",">
+            <include refid="commonsQuery"></include>
+        </trim>
+    </select>
+
+    <!--通过实体作为筛选条件获取结果数量-->
+    <select id="countAdmins" resultType="java.lang.Integer">
+        select
+        count(*)
+        from admin
+        <trim prefix="where" prefixOverrides="and" suffixOverrides=",">
+            <include refid="commonsQuery"></include>
+        </trim>
+    </select>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update admin
+        <set>
+            <include refid="commonsValue"></include>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+</mapper>

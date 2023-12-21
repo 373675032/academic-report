@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"
+          name="viewport">
+    <title>修改学术报告-学术报告管理系统</title>
+    <!-- Favicon and Touch Icons -->
+    <link href="common/favicon.png" rel="shortcut icon" type="image/png">
+    <link rel="stylesheet" href="background/modules/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="background/modules/ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="background/modules/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css">
+
+    <link rel="stylesheet" href="background/modules/summernote/summernote-lite.css">
+    <link rel="stylesheet" href="background/modules/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="background/css/style.css">
+    <link rel="stylesheet" href="common/css/xtiper.css">
+</head>
+
+<body>
+<div id="app">
+    <div class="main-wrapper">
+        <div class="navbar-bg"></div>
+        <div th:replace="commons/admin-bar::navbar(currUri='my-report')"></div>
+        <div th:replace="commons/admin-bar::sidebar(currUri='my-report')"></div>
+
+        <div class="main-content">
+            <section class="section">
+                <h1 class="section-header">
+                    <div>修改学术报告</div>
+                </h1>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12 form-group">
+                                <label for="title">
+                                    标题
+                                </label>
+                                <input id="title" th:value="${report.title}" type="text" style="margin-bottom: 10px" class="form-control" autocomplete="off" placeholder="填写学术报告标题...">
+                                <input id="id" th:value="${report.id}" type="hidden">
+                            </div>
+                            <div class="col-12 form-group">
+                                <label for="info">
+                                    报告简介
+                                </label>
+                                <textarea id="info" class="form-control" placeholder="填写报告简介..." style="height: 200px">[[${report.info}]]</textarea>
+                            </div>
+                            <div class="col-12 form-group">
+                                <label for="reporterInfo">
+                                    报告人简介
+                                </label>
+                                <textarea id="reporterInfo" class="form-control" placeholder="填写报告人简介..." style="height: 100px">[[${report.reporterInfo}]]</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <div class="float-right">
+                                    <a th:href="@{${report.reportFile}}" class="btn btn-success btn-sm">下载报告文件</a>
+                                </div>
+                                上传报告文件
+                            </div>
+                            <div class="card-body">
+                                <input id="reportFile" type="file" class="form-control" accept=".word,.pdf,.doc">
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-danger">重新上传报告文件将会覆盖原有文件</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <div class="float-right">
+                                    <a th:if="${report.attachment != null}" th:href="@{${report.attachment}}" class="btn btn-success btn-sm">下载附件</a>
+                                </div>
+                                上传附件
+                            </div>
+                            <div class="card-body">
+                                <input id="file" type="file" class="form-control" accept=".zip,.rar,.7z">
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-danger">重新上传附件将会覆盖原有附件</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <button onclick="edit()" class="btn btn-success">修改</button>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+        <div th:replace="commons/admin-bar::footer"></div>
+    </div>
+</div>
+
+<!--引入Jquery-->
+<script src="common/js/jquery-3.4.1.js"></script>
+<script src="background/modules/jquery.min.js"></script>
+<script src="common/js/xtiper.min.js"></script>
+<script src="background/js/custom.js"></script>
+<script src="background/modules/popper.js"></script>
+<script src="background/modules/tooltip.js"></script>
+<script src="background/modules/bootstrap/js/bootstrap.min.js"></script>
+<script src="background/modules/nicescroll/jquery.nicescroll.min.js"></script>
+<script src="background/modules/scroll-up-bar/dist/scroll-up-bar.min.js"></script>
+<script src="background/js/sa-functions.js"></script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.report.mapper.CollegeMapper">
+
+    <!--college的映射结果集-->
+    <resultMap type="com.report.entity.College" id="CollegeMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="leaderId" column="leader_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--全部字段-->
+    <sql id="allColumn"> id, name, leader_id </sql>
+
+    <!--添加语句的字段列表-->
+    <sql id="insertColumn">
+        <if test="name != null and name != ''">
+            name,
+        </if>
+        <if test="leaderId != null">
+            leader_id,
+        </if>
+    </sql>
+
+    <!--添加语句的值列表-->
+    <sql id="insertValue">
+        <if test="name != null and name != ''">
+            #{name},
+        </if>
+        <if test="leaderId != null">
+            #{leaderId},
+        </if>
+    </sql>
+
+    <!--通用对College各个属性的值的非空判断，Insert、Update使用-->
+    <sql id="commonsValue">
+        <if test="name != null and name != ''">
+            name = #{name},
+        </if>
+        <if test="leaderId != null">
+            leader_id = #{leaderId},
+        </if>
+    </sql>
+
+    <!--通用对College各个属性的值的非空判断,Where查询使用-->
+    <sql id="commonsQuery">
+        <if test="name != null and name != ''">
+            and name = #{name}
+        </if>
+        <if test="leaderId != null">
+            and leader_id = #{leaderId}
+        </if>
+    </sql>
+
+    <!--新增college:哪个字段不为空就添加哪列数据,返回自增主键-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into college
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <include refid="insertColumn"/>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <include refid="insertValue"/>
+        </trim>
+    </insert>
+
+    <!--删除college:通过主键-->
+    <delete id="deleteById">
+        delete from college
+        <where>
+            id = #{id}
+        </where>
+    </delete>
+
+    <!--查询单个college-->
+    <select id="getById" resultMap="CollegeMap">
+        select
+        <include refid="allColumn"></include>
+        from college
+        <where>
+            id = #{id}
+        </where>
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="listColleges" resultMap="CollegeMap">
+        select
+        <include refid="allColumn"></include>
+        from college
+        <trim prefix="where" prefixOverrides="and" suffixOverrides=",">
+            <include refid="commonsQuery"></include>
+        </trim>
+    </select>
+
+    <!--通过实体作为筛选条件获取结果数量-->
+    <select id="countColleges" resultType="java.lang.Integer">
+        select
+        count(*)
+        from college
+        <trim prefix="where" prefixOverrides="and" suffixOverrides=",">
+            <include refid="commonsQuery"></include>
+        </trim>
+    </select>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update college
+        <set>
+            <include refid="commonsValue"></include>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+</mapper>

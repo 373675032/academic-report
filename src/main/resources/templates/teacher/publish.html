@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"
+          name="viewport">
+    <title>发布学术报告-学术报告管理系统</title>
+    <!-- Favicon and Touch Icons -->
+    <link href="common/favicon.png" rel="shortcut icon" type="image/png">
+    <link href="background/modules/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="background/modules/ionicons/css/ionicons.min.css" rel="stylesheet">
+    <link href="background/modules/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css" rel="stylesheet">
+
+    <link href="background/modules/summernote/summernote-lite.css" rel="stylesheet">
+    <link href="background/modules/flag-icon-css/css/flag-icon.min.css" rel="stylesheet">
+    <link href="background/css/style.css" rel="stylesheet">
+    <link href="common/css/xtiper.css" rel="stylesheet">
+</head>
+
+<body>
+<div id="app">
+    <div class="main-wrapper">
+        <div class="navbar-bg"></div>
+        <div th:replace="commons/admin-bar::navbar(currUri='publish')"></div>
+        <div th:replace="commons/admin-bar::sidebar(currUri='publish')"></div>
+
+        <div class="main-content">
+            <section class="section">
+                <h1 class="section-header">
+                    <div><i class="ion ion-ios-compose"></i> 发布学术报告</div>
+                </h1>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12 form-group">
+                                <label for="title">
+                                    标题
+                                </label>
+                                <input autocomplete="off" class="form-control" id="title"
+                                       placeholder="填写学术报告标题..."
+                                       style="margin-bottom: 10px" type="text">
+                            </div>
+                            <div class="col-12 form-group">
+                                <label for="info">
+                                    报告简介
+                                </label>
+                                <textarea class="form-control" id="info" placeholder="填写报告简介..."
+                                          style="height: 120px"></textarea>
+                            </div>
+                            <div class="col-12 form-group">
+                                <label for="reporterInfo">
+                                    报告人简介
+                                </label>
+                                <textarea class="form-control" id="reporterInfo" placeholder="填写报告人简介..."
+                                          style="height: 100px"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                报告文件
+                            </div>
+                            <div class="card-body">
+                                <input accept=".word,.pdf,.dox,.docx,.doc" class="form-control" id="reportFile"
+                                       type="file">
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-danger">需上传学术报告文件（请上传Word文档、PDF文件）</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                附件
+                            </div>
+                            <div class="card-body">
+                                <input accept=".zip,.rar,.7z,.tar" class="form-control" id="file" type="file">
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-danger">附件用于上传相关学术资料 (请上传压缩包)</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <button class="btn btn-success" onclick="publish()">发布</button>
+                        <div class="btn-group">
+                            <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" type="button">
+                                <i class="ion ion-aperture"></i>
+                                AI 润色
+                            </button>
+                            <div class="dropdown-menu"
+                                 style="position: absolute; transform: translate3d(0px, 44px, 0px); top: 0px; left: 0px; will-change: transform;"
+                                 x-placement="bottom-start">
+                                <a class="dropdown-item" href="javascript:generateTitle()">趣味标题</a>
+                                <a class="dropdown-item" href="javascript:generateReport()">报告简介</a>
+                                <a class="dropdown-item" href="javascript:generateReporter()">报告人简介</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+        <div th:replace="commons/admin-bar::footer"></div>
+    </div>
+</div>
+
+<!--引入Jquery-->
+<script src="common/js/jquery-3.4.1.js"></script>
+<script src="background/modules/jquery.min.js"></script>
+<script src="common/js/xtiper.min.js"></script>
+<script src="background/js/custom.js"></script>
+<script src="background/modules/popper.js"></script>
+<script src="background/modules/tooltip.js"></script>
+<script src="background/modules/bootstrap/js/bootstrap.min.js"></script>
+<script src="background/modules/nicescroll/jquery.nicescroll.min.js"></script>
+<script src="background/modules/scroll-up-bar/dist/scroll-up-bar.min.js"></script>
+<script src="background/js/sa-functions.js"></script>
+</body>
+</html>

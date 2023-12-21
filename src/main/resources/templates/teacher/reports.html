@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"
+          name="viewport">
+    <title>我的报告-学术报告管理系统</title>
+    <!-- Favicon and Touch Icons -->
+    <link href="common/favicon.png" rel="shortcut icon" type="image/png">
+    <link rel="stylesheet" href="background/modules/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="background/modules/ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="background/modules/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css">
+
+    <link rel="stylesheet" href="background/modules/summernote/summernote-lite.css">
+    <link rel="stylesheet" href="background/modules/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="background/css/style.css">
+    <link rel="stylesheet" href="common/css/xtiper.css">
+    <link rel="stylesheet" href="common/datatable/dataTables.bootstrap4.min.css"/>
+</head>
+
+<body>
+<div id="app">
+    <div class="main-wrapper">
+        <div class="navbar-bg"></div>
+        <div th:replace="commons/admin-bar::navbar(currUri='my-report')"></div>
+        <div th:replace="commons/admin-bar::sidebar(currUri='my-report')"></div>
+
+        <div class="main-content">
+            <section class="section">
+                <h1 class="section-header">
+                    <div><i class="ion ion-ios-paper"></i> 我的报告</div>
+                </h1>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="example1"  class="table table-bordered table-hover display" style="text-align: center;">
+                                        <thead>
+                                        <tr>
+                                            <th>报告编号</th>
+                                            <th>标题</th>
+                                            <th>状态
+                                                <i class="fa ion-record" style="color: #3498db" title="等待学院院长审核"></i>
+                                                <i class="fa ion-record" style="color: #f1c40f" title="等待教务部门审核"></i>
+                                                <i class="fa ion-record" style="color: #9b59b6" title="等待宣传部门排期"></i>
+                                                <i class="fa ion-record" style="color: #2ecc71" title="开放预约"></i>
+                                                <i class="fa ion-record" style="color: #95a5a6" title="会议完成"></i>
+                                            </th>
+                                            <th>时间</th>
+                                            <th>下载</th>
+                                            <th>操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody style="font-size: 12px">
+                                        <tr th:each="report,indexStat:${reports}">
+                                            <td th:text="${report.id}"></td>
+                                            <td th:text="${report.title}"></td>
+                                            <td>
+                                                <span style="color: #e74c3c" th:title="${report.checkInfo2}" th:if="${report.status == -2}">0 <i th:title="${report.checkInfo2}" class="fa ion-help-circled" style="color: #e74c3c"></i> 教务部门审核未通过</span>
+                                                <span style="color: #e74c3c" th:title="${report.checkInfo1}" th:if="${report.status == -1}">0 <i th:title="${report.checkInfo1}" class="fa ion-help-circled" style="color: #e74c3c"></i> 学院院长审核未通过</span>
+                                                <span style="color: #3498db" th:if="${report.status == 0}"> <i class="fa ion-record" style="color: #3498db"></i> 等待学院院长审核</span>
+                                                <span style="color: #f1c40f" th:if="${report.status == 1}"> <i class="fa ion-record" style="color: #f1c40f"></i> 等待教务部门审核</span>
+                                                <span style="color: #9b59b6" th:if="${report.status == 2}"> <i class="fa ion-record" style="color: #9b59b6"></i> 等待宣传部门排期</span>
+                                                <span style="color: #2ecc71" th:if="${report.status == 3}"> <i class="fa ion-record" style="color: #2ecc71"></i> 开放预约</span>
+                                                <span style="color: #95a5a6" th:if="${report.status == 4}"> <i class="fa ion-record" style="color: #95a5a6"></i> 会议完成</span>
+                                            </td>
+                                            <td th:text="${#dates.format(report.publishTime,'YYYY年MM月dd日 HH:mm:ss')}"></td>
+                                            <td>
+                                                <a title="下载报告文件" th:href="${report.reportFile}" target="_blank" class="btn-link text-primary">报告</i></a>
+                                                <span th:if="${report.attachment != null}"> | </span>
+                                                <a title="下载附件" th:if="${report.attachment != null}" th:href="${report.attachment}" target="_blank" class="btn-link text-primary">附件</i></a>
+                                            </td>
+                                            <td>
+                                                <a title="编辑" th:href="@{edit(id=${report.id})}" class="btn-link text-success">编辑</a>
+                                               | <a href="JavaScript:void(0)" title="移入回收站" th:onclick="intoTrash([[${report.id}]])" class="btn-link text-danger">移入回收站</a>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div><!-- end card-->
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+
+<!--引入Jquery-->
+<script src="common/js/jquery-3.4.1.js"></script>
+<script src="background/modules/jquery.min.js"></script>
+<script src="common/js/xtiper.min.js"></script>
+<script src="background/js/custom.js"></script>
+<script src="background/modules/popper.js"></script>
+<script src="background/modules/tooltip.js"></script>
+<script src="background/modules/bootstrap/js/bootstrap.min.js"></script>
+<script src="background/modules/nicescroll/jquery.nicescroll.min.js"></script>
+<script src="background/modules/scroll-up-bar/dist/scroll-up-bar.min.js"></script>
+<script src="background/js/sa-functions.js"></script>
+<script src="common/datatable/jquery.dataTables.min.js"></script>
+<script src="common/datatable/dataTables.bootstrap4.min.js"></script>
+<script>
+    // START CODE FOR BASIC DATA TABLE
+    $(document).ready(function() {
+        $('#example1').DataTable({
+            language: {
+                "sProcessing": "处理中...",
+                "sLengthMenu": "显示 _MENU_ 项结果",
+                "sZeroRecords": "没有匹配结果",
+                "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上页",
+                    "sNext": "下页",
+                    "sLast": "末页"
+                },
+                "oAria": {
+                    "sSortAscending": ": 以升序排列此列",
+                    "sSortDescending": ": 以降序排列此列"
+                }
+            },
+            "aoColumnDefs": [ { "bSortable": false, "aTargets": [ 4,5 ]}],
+            "order": [0, "desc"]
+        });
+    });
+    // END CODE FOR BASIC DATA TABLE
+
+    // START CODE FOR Child rows (show extra / detailed information) DATA TABLE
+
+</script>
+
+</body>
+</html>

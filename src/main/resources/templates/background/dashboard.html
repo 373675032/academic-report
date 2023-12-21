@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"
+          name="viewport">
+    <title>仪表盘-学术报告管理系统</title>
+    <!-- Favicon and Touch Icons -->
+    <link href="common/favicon.png" rel="shortcut icon" type="image/png">
+    <link rel="stylesheet" href="background/modules/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="background/modules/ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="background/modules/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css">
+
+    <link rel="stylesheet" href="background/modules/summernote/summernote-lite.css">
+    <link rel="stylesheet" href="background/modules/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="background/css/style.css">
+    <link rel="stylesheet" href="common/css/xtiper.css">
+</head>
+
+<body>
+<div id="app">
+    <div class="main-wrapper">
+        <div class="navbar-bg"></div>
+        <div th:replace="commons/admin-bar::navbar(currUri='dashboard')"></div>
+        <div th:replace="commons/admin-bar::sidebar(currUri='dashboard')"></div>
+
+        <div class="main-content">
+            <section class="section">
+                <h1 class="section-header">
+                    <div>仪表盘</div>
+                </h1>
+                <div class="row">
+                    <div class="col-lg-6 col-md-12 col-12 col-sm-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>活动</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12 col-12 col-sm-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="float-right">
+                                    <a href="reset.html" class="btn btn-danger">修改密码</a>
+                                </div>
+                                <h5>资料</h5>
+                            </div>
+                            <div class="card-body" th:if="${loginUser.role == 'student'}">
+                                <div class="form-group row">
+                                    <div class="input-group col-6">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">姓名</div>
+                                        </div>
+                                        <input th:value="${loginStudent.name}" type="text" disabled class="form-control">
+                                    </div>
+                                    <div class="input-group col-6">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">学号</div>
+                                        </div>
+                                        <input th:value="${loginStudent.no}" type="text" disabled class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="input-group col-6">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">性别</div>
+                                        </div>
+                                        <input th:value="${loginStudent.sex}" type="text" disabled class="form-control">
+                                    </div>
+                                    <div class="input-group col-6">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">生日</div>
+                                        </div>
+                                        <input th:value="${#dates.format(loginStudent.birthday,'YYYY年-MM月-dd日')}" type="text" disabled class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="input-group col-6">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">年级</div>
+                                        </div>
+                                        <input th:value="${loginStudent.grade}" disabled type="text" class="form-control">
+                                    </div>
+                                    <div class="input-group col-6">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">学院</div>
+                                        </div>
+                                        <input th:value="${loginStudent.collegeName}" disabled type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="input-group col-6">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">专业</div>
+                                        </div>
+                                        <input th:value="${loginStudent.major}" disabled type="text" class="form-control">
+                                    </div>
+                                    <div class="input-group col-6">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">班级</div>
+                                        </div>
+                                        <input th:value="${loginStudent.classInfo}" disabled type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="input-group col-6">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">电子邮箱</div>
+                                        </div>
+                                        <input id="email" onchange="updateEmail()" th:value="${loginStudent.email}" type="text" class="form-control">
+                                    </div>
+                                    <div class="input-group col-6">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">手机号码</div>
+                                        </div>
+                                        <input id="phone" onchange="updatePhone()" th:value="${loginStudent.phone}" type="text" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body" th:if="${loginUser.role == 'teacher'}">
+                                <div class="form-group row">
+                                    <div class="input-group col-6">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">姓名</div>
+                                        </div>
+                                        <input th:value="${loginTeacher.name}" type="text" disabled class="form-control">
+                                    </div>
+                                    <div class="input-group col-6">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">工号</div>
+                                        </div>
+                                        <input th:value="${loginTeacher.no}" type="text" disabled class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="input-group col-6">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">性别</div>
+                                        </div>
+                                        <input th:value="${loginTeacher.sex}" type="text" disabled class="form-control">
+                                    </div>
+                                    <div class="input-group col-6">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">生日</div>
+                                        </div>
+                                        <input th:value="${#dates.format(loginTeacher.birthday,'YYYY年-MM月-dd日')}" type="text" disabled class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="input-group col-6">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">职称</div>
+                                        </div>
+                                        <input th:value="${loginTeacher.position}" disabled type="text" class="form-control">
+                                    </div>
+                                    <div class="input-group col-6">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">学院</div>
+                                        </div>
+                                        <input th:value="${loginTeacher.collegeName}" disabled type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">手机号码</div>
+                                        </div>
+                                        <input id="phone" onchange="updatePhone()" th:value="${loginTeacher.phone}" type="text" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body" th:if="${loginUser.role == 'department'}">
+                                <div class="form-group row">
+                                    <div class="input-group col-6">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">名称</div>
+                                        </div>
+                                        <input th:value="${loginDept.name}" type="text" disabled class="form-control">
+                                    </div>
+                                    <div class="input-group col-6">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">编号</div>
+                                        </div>
+                                        <input th:value="${loginDept.no}" type="text" disabled class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="input-group col-6">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">领导</div>
+                                        </div>
+                                        <input th:value="${loginDept.leader.name + ' : ' + loginDept.leader.phone}" type="text" disabled class="form-control">
+                                    </div>
+                                    <div class="input-group col-6">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">工号</div>
+                                        </div>
+                                        <input th:value="${loginDept.leader.no}" type="text" disabled class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">学院</div>
+                                        </div>
+                                        <input th:value="${loginDept.college.name}" disabled type="text" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div th:replace="commons/admin-bar::footer"></div>
+    </div>
+</div>
+
+<script src="background/modules/jquery.min.js"></script>
+<script src="common/js/xtiper.min.js"></script>
+<script src="background/js/custom.js"></script>
+<script src="background/modules/popper.js"></script>
+<script src="background/modules/tooltip.js"></script>
+<script src="background/modules/bootstrap/js/bootstrap.min.js"></script>
+<script src="background/modules/nicescroll/jquery.nicescroll.min.js"></script>
+<script src="background/modules/scroll-up-bar/dist/scroll-up-bar.min.js"></script>
+<script src="background/js/sa-functions.js"></script>
+
+<script src="background/modules/chart.min.js"></script>
+<script src="background/modules/summernote/summernote-lite.js"></script>
+
+<script src="background/js/scripts.js"></script>
+</body>
+</html>

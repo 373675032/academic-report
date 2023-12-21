@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"
+          name="viewport">
+    <title>消息中心-学术报告管理系统</title>
+    <!-- Favicon and Touch Icons -->
+    <link href="common/favicon.png" rel="shortcut icon" type="image/png">
+    <link rel="stylesheet" href="background/modules/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="background/modules/ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="background/modules/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css">
+
+    <link rel="stylesheet" href="background/modules/summernote/summernote-lite.css">
+    <link rel="stylesheet" href="background/modules/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="background/css/style.css">
+    <link rel="stylesheet" href="common/css/xtiper.css">
+</head>
+
+<body>
+<div id="app">
+    <div class="main-wrapper">
+        <div class="navbar-bg"></div>
+        <div th:replace="commons/admin-bar::navbar(currUri='messages')"></div>
+        <div th:replace="commons/admin-bar::sidebar(currUri='messages')"></div>
+
+        <div class="main-content">
+            <section class="section">
+                <h1 class="section-header">
+                    <div><i class="ion ion-chatbubble-working"></i> 消息中心</div>
+                    <div class="float-right">
+                        <button onclick="deleteAllMessages()" class="btn btn-sm btn-danger">清空</button>
+                    </div>
+                </h1>
+                <div class="row">
+                    <div class="col-12" th:if="${messages.size() == 0}">
+                        <div class="alert alert-warning alert-has-icon show">
+                            <div class="alert-icon"><i class="ion ion-chatbox-working"></i></div>
+                            <div class="alert-body">
+                                <div class="alert-title">一条消息也没有～
+                                </div>
+                                -
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12" th:each="message:${messages}">
+                        <div class="alert alert-info alert-has-icon show">
+                            <div class="alert-icon"><i class="ion ion-chatbox-working"></i></div>
+                            <div class="alert-body">
+                                <div class="alert-title">审核消息通知
+                                    <div class="float-right">
+                                        [[${#dates.format(message.sendTime,'yyyy-MM-dd HH:ss')}]]
+                                    </div>
+                                </div>
+                                [[${message.message}]]
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div th:replace="commons/admin-bar::footer"></div>
+    </div>
+</div>
+
+<script src="background/modules/jquery.min.js"></script>
+<script src="common/js/xtiper.min.js"></script>
+<script src="background/js/custom.js"></script>
+<script src="background/modules/popper.js"></script>
+<script src="background/modules/tooltip.js"></script>
+<script src="background/modules/bootstrap/js/bootstrap.min.js"></script>
+<script src="background/modules/nicescroll/jquery.nicescroll.min.js"></script>
+<script src="background/modules/scroll-up-bar/dist/scroll-up-bar.min.js"></script>
+<script src="background/js/sa-functions.js"></script>
+
+<script src="background/modules/chart.min.js"></script>
+<script src="background/modules/summernote/summernote-lite.js"></script>
+
+<script src="background/js/scripts.js"></script>
+</body>
+</html>
